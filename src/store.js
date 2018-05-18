@@ -10,13 +10,13 @@ export default new Vuex.Store({
   state: {
     // taruh localstorage biar klo d refresh gk hilang
     player: {
-      name: 'rolando',
+      name: 'rex',
       health: 100,
       point: 0,
       attack: false,
       answer: false,
-      roomId: 'cvjs98ejrosnjdfsdjf',
-      turn: 1
+      roomId: 'room1',
+      turn: 0
     },
     skill: [{
       name: 'tusuk',
@@ -36,22 +36,23 @@ export default new Vuex.Store({
       damage: 40
     }],
     question: {},
-    room: {
-      name: 'room 1',
-      players: [{
-        name: 'rex',
-        health: 100,
-        point: 0
-      }, {
-        name: 'rolando',
-        health: 100,
-        point: 0
-      }],
-      turn: 1,
-      action: '',
-      status: true,
-      winner: -1
-    }
+    room: {}
+    // room: {
+    //   name: 'room 1',
+    //   players: [{
+    //     name: 'rex',
+    //     health: 100,
+    //     point: 0
+    //   }, {
+    //     name: 'john',
+    //     health: 100,
+    //     point: 0
+    //   }],
+    //   turn: 1,
+    //   action: '',
+    //   status: true,
+    //   winner: -1
+    // }
   },
   mutations: {
     setGameplayData (state, payload) {
@@ -74,9 +75,9 @@ export default new Vuex.Store({
         // mengurangi health enemy
         state.room.players[enemyTurn].health -= state.skill[payload].damage
         // menambah nama action ke room
-        state.room.action = state.skill[payload].name
+        state.room.players[enemyTurn].action = state.skill[payload].name
         // status attack jadi true setelah player attack
-        state.player.attack = true
+        state.player.attack = true        
         if (state.room.players[enemyTurn].health <= 0) state.room.winner = state.player.turn
         alert(`Musuh ter${state.skill[payload].name}`)
       } else {
@@ -110,7 +111,7 @@ export default new Vuex.Store({
       state.player.attack = false
       state.player.answer = false
       // mengganti room turn jadi turn masuh
-      state.room.turn = enemyTurn
+      state.room.turn = enemyTurn      
     }
   },
   actions: {
@@ -129,14 +130,14 @@ export default new Vuex.Store({
         })
     },
     getGameplayData (context) {
-      db.ref('/room').child(context.state.player.roomId).set(context.state.room)
-      let roomRef = db.ref('/room').child(context.state.player.roomId)
+      // db.ref('/rooms').child(context.state.player.roomId).set(context.state.room)
+      let roomRef = db.ref('/rooms').child(context.state.player.roomId)
       roomRef.on('value', function (snapshot) {
         context.commit('setGameplayData', snapshot.val())
       })
     },
     endTurn (context) {
-      db.ref('/room').child(context.state.player.roomId).set(context.state.room)
+      db.ref('/rooms').child(context.state.player.roomId).set(context.state.room)
     }
   }
 })
