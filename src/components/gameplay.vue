@@ -1,8 +1,8 @@
 <template>
   <div>
     <div class="container" v-if="player.turn === room.turn && room.winner === -1">
-      <h2>hi player</h2>
-      <h2>point kamu : </h2>
+      <h2>hi {{player.name}}</h2>
+      <h2>point kamu : {{player.point}}</h2>
       <div class="d-flex flex-row">
         <div class="p-3">
           <p style="color:red">Tusuk</p>
@@ -25,11 +25,11 @@
           <p>point:40 | damage:40</p>
         </div>
       </div>
-      <h1>Terbacok</h1>
-      <img src="http://webiconspng.com/wp-content/uploads/2017/09/Blood-PNG-Image-69403.png" width="30%" class="flicker-in-1">
+      <h1>Terrr-{{room.players[player.turn].action}}</h1>
+      <img src="http://webiconspng.com/wp-content/uploads/2017/09/Blood-PNG-Image-69403.png" width="30%" class="flicker-in-1" v-if="room.players[player.turn].action.length>0">
       <h4>Darah tersisa:</h4>
-      <div class="progress">
-        <div class="progress-bar progress-bar-striped bg-danger" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0"
+      <div class="progress">                                                           
+        <div class="progress-bar progress-bar-striped bg-danger" role="progressbar" :style="{width: player.health+'%'}" aria-valuenow="100" aria-valuemin="0"
           aria-valuemax="100"></div>
       </div>
       <div class="card text-center">
@@ -71,7 +71,7 @@ export default {
           'question',
           'player',
           'room'
-      ])
+      ])      
     },
     methods: {
       answering (answer) {
@@ -87,6 +87,10 @@ export default {
       doneTurn () {
         this.$store.commit('updatePlayers')
         this.$store.dispatch('endTurn')
+        this.$store.dispatch('getQuestion')
+      },
+      decrease: function(){
+        return `${this.player.health} + %`
       }
     },
     created () {
