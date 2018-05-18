@@ -130,8 +130,8 @@ export default new Vuex.Store({
       })
     },
     joinRoom: function (context, payload) {
-      firebase.database().ref(`rooms/${payload.roomName}/players/1`).set(payload.player)
-      firebase.database().ref(`rooms/${payload.roomName}/status`).update(true)
+      firebase.database().ref(`rooms/${payload.roomName}/players/1`).set(payload.getPlayer)
+      // firebase.database().ref(`rooms/${payload.roomName}/status`).update(true)
     },
     register(context, payload) {
       firebase.database().ref('users/').push({
@@ -180,7 +180,10 @@ export default new Vuex.Store({
     },
     getGameplayData(context) {
       // db.ref('/rooms').child(context.state.player.roomId).set(context.state.room)
-      let roomRef = firebase.database().ref('/rooms').child(context.state.player.roomName)
+      let player = JSON.parse(localStorage.getItem('player'))
+      console.log(player);
+      
+      let roomRef = firebase.database().ref('/rooms').child(player.roomName)
       roomRef.on('value', function (snapshot) {
         context.commit('setGameplayData', snapshot.val())
       })

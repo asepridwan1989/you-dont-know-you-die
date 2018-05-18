@@ -63,7 +63,7 @@ import firebase from 'firebase'
     },
     methods: {
       createRoom () {
-         let getPlayer = JSON.parse(localStorage.getItem('player'))
+        let getPlayer = JSON.parse(localStorage.getItem('player'))
         getPlayer.turn = 0
         getPlayer.attack = false
         getPlayer.answer = false
@@ -83,9 +83,13 @@ import firebase from 'firebase'
       },
     joinRoom: function (roomName) {
       let getPlayer = JSON.parse(localStorage.getItem('player'))
-      getPlayer.turn = 1
-      
+        getPlayer.turn = 1
+        getPlayer.attack = false
+        getPlayer.answer = false
+        getPlayer.roomName = roomName
+       localStorage.setItem('player', JSON.stringify(getPlayer))
       this.$store.dispatch('joinRoom', {roomName, getPlayer})
+     
       this.$router.push('gameplay')
     }
   },
