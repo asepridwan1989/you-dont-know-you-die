@@ -56,9 +56,10 @@ export default new Vuex.Store({
   },
   mutations: {
     setGameplayData (state, payload) {
+      let player = JSON.parse(localStorage.getItem('player'))
       state.room = payload
-      state.player.health = state.room.players[state.player.turn].health
-      state.player.point = state.room.players[state.player.turn].point
+      state.player = state.room.players[player.turn]
+      localStorage.setItem('player', JSON.stringify(state.player))
     },
     setQuestion (state, payload) {
       state.question = payload
@@ -77,7 +78,7 @@ export default new Vuex.Store({
         // menambah nama action ke room
         state.room.players[enemyTurn].action = state.skill[payload].name
         // status attack jadi true setelah player attack
-        state.player.attack = true        
+        state.player.attack = true
         if (state.room.players[enemyTurn].health <= 0) state.room.winner = state.player.turn
         alert(`Musuh ter${state.skill[payload].name}`)
       } else {
@@ -118,7 +119,6 @@ export default new Vuex.Store({
     getQuestion (context) {
       axios.get('https://opentdb.com/api.php?amount=1&difficulty=easy&type=boolean')
         .then(response => {
-          console.log(response)
           let question = {
             pertanyaan: response.data.results[0]['question'],
             jawaban: response.data.results[0]['correct_answer']
