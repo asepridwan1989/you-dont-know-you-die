@@ -131,7 +131,7 @@ export default new Vuex.Store({
     },
     joinRoom: function (context, payload) {
       firebase.database().ref(`rooms/${payload.roomName}/players/1`).set(payload.getPlayer)
-      // firebase.database().ref(`rooms/${payload.roomName}/status`).update(true)
+      firebase.database().ref(`rooms/${payload.roomName}`).update({status: true})
     },
     register(context, payload) {
       firebase.database().ref('users/').push({

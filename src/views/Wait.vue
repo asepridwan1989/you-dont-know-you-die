@@ -11,9 +11,14 @@ export default {
   name: 'wait',
   data () {
     return {
-      room: '',
-      status: false,
+      room: ''
+      // status: false,
     }
+  },
+  computed: {
+    ...mapState([
+      'status'
+    ])
   }, 
   created () {
    let data = localStorage.getItem('player')
@@ -22,7 +27,7 @@ export default {
   },
   watch : {
     room () {
-      this.status = this.$store.state.status
+      // this.status = this.$store.state.status
       if (this.status === true) {
         this.$router.push('gameplay')
       }
