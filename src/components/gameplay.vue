@@ -46,13 +46,16 @@
       </div>
     </div>
     <div class="container" v-else-if="player.turn !== room.turn && room.winner === -1">
-      <h1>Sekarang giliran musuh</h1>
+      <h1>Mohon tunggu sekarang giliran musuh</h1>
+      <img src="http://static.zerochan.net/CROWS.ZERO.full.1384713.jpg" alt="">
     </div>
     <div class="container" v-else-if="room.winner === player.turn">
-      <h1>Kamu telah membantai musuh</h1>
+      <h1>selamat kamu telah membantai musuh</h1>
+      <img src="http://static.zerochan.net/Takiya.Genji.full.1036507.jpg" alt="">
     </div>
     <div class="container" v-else>
-      <h1>Kamu dibantai oleh musuh</h1>
+      <h1>Cupuu!! kamu telah dibantai oleh musuh</h1>
+      <img src="http://3.bp.blogspot.com/-6M68ZwGmbo4/UFJ1QhQoAkI/AAAAAAAAEDA/HPiZyWdMnnw/s1600/Naruto%2BSD%2BEpisode%2B24.jpg" alt="">
     </div>
   </div>
 </template>
