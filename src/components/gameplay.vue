@@ -1,71 +1,97 @@
 <template>
-
-    <div class="container">
-        <h2>hi player</h2>
-        <h2>point kamu : </h2>
-        <div class="d-flex flex-row">
-            <div class="p-3">
-                <p style="color:red">Tusuk</p>
-                <img src="https://www.shareicon.net/download/2016/10/12/843613_horror_512x512.png" width="30%">
-                <p>point:10 | damage:10</p>
-            </div>
-            <div class="p-3">
-                <p style="color:red">Tebas</p>
-                <img src="https://www.shareicon.net/download/2016/10/01/837948_miscellaneous_512x512.png" width="30%">
-                <p>point:20 | damage:20</p>
-            </div>
-            <div class="p-3">
-                <p style="color:red">Bacok</p>
-                <img src="https://cdn4.iconfinder.com/data/icons/video-game-items-concepts/128/weapon-saber-pirate-512.png" width="30%">
-                <p>point:30 | damage:30</p>
-            </div>
-            <div class="p-3">
-                <p style="color:red">Cubit</p>
-                <img src="http://icons.iconarchive.com/icons/iconsmind/outline/512/Pinch-icon.png" width="30%">
-                <p>point:40 | damage:40</p>
-            </div>
-        </div>   
-        <h1>Terbacok</h1>
-        <img src="http://webiconspng.com/wp-content/uploads/2017/09/Blood-PNG-Image-69403.png" width="30%" class="flicker-in-1">
-        <h4>Darah tersisa:</h4>
-        <div class="progress">
-        <div class="progress-bar progress-bar-striped bg-danger" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+  <div>
+    <div class="container" v-if="player.turn === room.turn && room.winner === -1">
+      <h2>hi player</h2>
+      <h2>point kamu : </h2>
+      <div class="d-flex flex-row">
+        <div class="p-3">
+          <p style="color:red">Tusuk</p>
+          <img src="https://www.shareicon.net/download/2016/10/12/843613_horror_512x512.png" width="30%" @click="useSkill(0)">
+          <p>point:10 | damage:10</p>
         </div>
-        <div class="card text-center">
-  <div class="card-header">
-    <h3>Pertanyaan</h3>
-  </div>
-  <div class="card-body">
-    <h3 class="card-title">Jawab Pertanyaan berikut ini</h3>
-    <h2 class="card-text">{{question.pertanyaan}}</h2>
-    <input type="text"><br/><br/>
-    <a href="#" class="btn btn-primary">Jawab</a>
-  </div>
-</div>
+        <div class="p-3">
+          <p style="color:red">Tebas</p>
+          <img src="https://www.shareicon.net/download/2016/10/01/837948_miscellaneous_512x512.png" width="30%" @click="useSkill(1)">
+          <p>point:20 | damage:20</p>
+        </div>
+        <div class="p-3">
+          <p style="color:red">Bacok</p>
+          <img src="https://cdn4.iconfinder.com/data/icons/video-game-items-concepts/128/weapon-saber-pirate-512.png" width="30%" @click="useSkill(2)">
+          <p>point:30 | damage:30</p>
+        </div>
+        <div class="p-3">
+          <p style="color:red">Cubit</p>
+          <img src="http://icons.iconarchive.com/icons/iconsmind/outline/512/Pinch-icon.png" width="30%" @click="useSkill(3)">
+          <p>point:40 | damage:40</p>
+        </div>
+      </div>
+      <h1>Terbacok</h1>
+      <img src="http://webiconspng.com/wp-content/uploads/2017/09/Blood-PNG-Image-69403.png" width="30%" class="flicker-in-1">
+      <h4>Darah tersisa:</h4>
+      <div class="progress">
+        <div class="progress-bar progress-bar-striped bg-danger" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0"
+          aria-valuemax="100"></div>
+      </div>
+      <div class="card text-center">
+        <div class="card-header">
+          <h3>Pertanyaan</h3>
+        </div>
+        <div class="card-body">
+          <h3 class="card-title">Jawab Pertanyaan berikut ini</h3>
+          <h2 class="card-text">{{question.pertanyaan}}</h2>
+          <button class="btn btn-success" @click="answering('True')">True</button>
+          <button class="btn btn-danger" @click="answering('False')">False</button>
+          <button class="btn btn-secondary" @click="doneTurn">Lanjut</button>
+        </div>
+      </div>
     </div>
-
-
-
-
+    <div class="container" v-else-if="player.turn !== room.turn && room.winner === -1">
+      <h1>Sekarang giliran musuh</h1>
+    </div>
+    <div class="container" v-else-if="room.winner === player.turn">
+      <h1>Kamu telah membantai musuh</h1>
+    </div>
+    <div class="container" v-else>
+      <h1>Kamu dibantai oleh musuh</h1>
+    </div>
+  </div>
 </template>
 
 <script>
 import {mapState} from 'vuex'
 export default {
     name: 'Gameplay',
-    data: function(){
-        return {
-            // question:{}
-        }
+    data () {
+      return {
+          // question:{}
+      }
     },
     computed: {
-        ...mapState([
-            'question'
-        ])
+      ...mapState([
+          'question',
+          'player',
+          'room'
+      ])
     },
-    created: function(){
-        this.$store.dispatch('getQuestion')
-        // this.question = this.$store.state.question
+    methods: {
+      answering (answer) {
+        this.$store.commit('answering', answer)
+      },
+      useSkill (skillIndex) {
+        this.$store.commit('useSkill', skillIndex)
+        if (this.room.winner === this.player.turn) {
+          this.$store.commit('updatePlayers')
+          this.$store.dispatch('endTurn')
+        }
+      },
+      doneTurn () {
+        this.$store.commit('updatePlayers')
+        this.$store.dispatch('endTurn')
+      }
+    },
+    created () {
+      this.$store.dispatch('getGameplayData')
+      this.$store.dispatch('getQuestion')
     }
 }
 </script>
