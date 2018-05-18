@@ -23,19 +23,21 @@
           </div>
         </div>
       </div>
-        <h1 class="list">Room List :</h1>
 
-      <div v-for="(room, index) in rooms" :key="index">
-        <div class="card" style="width: 18rem;">        
-          <div class="card-body">
-            <h3 class="card-title">YDKYD</h3><hr>
-            <p class="card-text">{{room.name}}</p>
-            <h5>Player: </h5>
-            <p>{{ room.players[0].name }}</p>
-            <a href="#" class="btn btn-danger btn-lg" @click="joinRoom(room.name)">Join</a>
+        <h1 class="list">Room List :</h1>
+        <div>
+          <div v-for="(room, index) in rooms" :key="index">
+            <div class="card" style="width: 18rem;">        
+              <div class="card-body">
+                <h3 class="card-title">YDKYD</h3><hr>
+                <p class="card-text">{{room.name}}</p>
+                <h5>Player: </h5>
+                <p>{{ room.players[0].name }}</p>
+                <a href="#" class="btn btn-danger btn-lg" @click="joinRoom(room.name)">Join</a>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
 
     </div>  
   </div>

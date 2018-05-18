@@ -14,11 +14,6 @@ export default new Router({
       component: Lobby
     },
     {
-      path: '/about',
-      name: 'about',
-      component: About
-    },
-    {
       path: '/lobby',
       name: 'lobby',
       component: Lobby
