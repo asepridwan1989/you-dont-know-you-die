@@ -23,19 +23,19 @@ export default new Vuex.Store({
     skill: [{
       name: 'tusuk',
       point: 10,
-      damage: 10
+      damage: 30
     }, {
       name: 'tebas',
       point: 20,
-      damage: 20
+      damage: 40
     }, {
       name: 'bacok',
       point: 30,
-      damage: 30
+      damage: 50
     }, {
       name: 'cubit',
       point: 40,
-      damage: 40
+      damage: 60
     }],
     question: {},
     room: {}

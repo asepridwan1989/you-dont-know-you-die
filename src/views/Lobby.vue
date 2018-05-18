@@ -68,6 +68,7 @@ import firebase from 'firebase'
         getPlayer.attack = false
         getPlayer.answer = false
         getPlayer.roomName = this.roomName
+        getPlayer.action = ''
 
         let room = {
           name: this.roomName,          
@@ -87,6 +88,8 @@ import firebase from 'firebase'
         getPlayer.attack = false
         getPlayer.answer = false
         getPlayer.roomName = roomName
+        getPlayer.action = ''
+        
        localStorage.setItem('player', JSON.stringify(getPlayer))
       this.$store.dispatch('joinRoom', {roomName, getPlayer})
      

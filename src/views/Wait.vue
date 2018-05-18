@@ -26,7 +26,7 @@ export default {
    this.$store.dispatch('getStatusRoom', this.room)
   },
   watch : {
-    room () {
+    status () {
       // this.status = this.$store.state.status
       if (this.status === true) {
         this.$router.push('gameplay')
