@@ -26,6 +26,7 @@ export default {
     register () {
         this.$store.dispatch('register', this.name)
         this.name = ''
+        this.$router.push('lobby')
     }
   }
 }
