@@ -1,8 +1,8 @@
 <template>
+<div>
   <div class="lobby">
     <div class="wrap">
       <a class="button" data-toggle="modal" data-target="#create">Create Room</a>
-
       <div class="modal" tabindex="-1" role="dialog" id='create'>
         <div class="modal-dialog" role="document">
           <div class="modal-content">
@@ -38,9 +38,10 @@
             </div>
           </div>
         </div>
-
     </div>  
-  </div>
+  </div> 
+</div>
+  
   
 </template>
 
@@ -62,8 +63,11 @@ import firebase from 'firebase'
     },
     methods: {
       createRoom () {
-        let getPlayer = JSON.parse(localStorage.getItem('player'))
+         let getPlayer = JSON.parse(localStorage.getItem('player'))
         getPlayer.turn = 0
+        getPlayer.attack = false
+        getPlayer.answer = false
+        getPlayer.roomName = this.roomName
 
         let room = {
           name: this.roomName,          
@@ -73,15 +77,16 @@ import firebase from 'firebase'
           status: false,
           winner: -1
         }
-
+        localStorage.setItem('player', JSON.stringify(getPlayer))
         this.$store.dispatch('createRoom', {room, name : room.name,})
-
+        this.$router.push('wait')
       },
     joinRoom: function (roomName) {
       let getPlayer = JSON.parse(localStorage.getItem('player'))
       getPlayer.turn = 1
       
       this.$store.dispatch('joinRoom', {roomName, getPlayer})
+      this.$router.push('gameplay')
     }
   },
   created: function () {
