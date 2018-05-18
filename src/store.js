@@ -9,7 +9,11 @@ export default new Vuex.Store({
   state: {
     username: '',
     health: 100,
-    point: 0
+    point: 0,
+    action: '',
+    attack: false,
+    answer: false,
+    roomName: '',
   },
   mutations: {
     register (state, payload) {
